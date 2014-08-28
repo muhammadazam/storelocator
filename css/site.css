@@ -31,7 +31,7 @@ body { height: 100%; margin: 0; padding: 0 }
 }
 
 #list-group li{
-    cursor: pointer;
+    
 }
 
 .cls-directions{
@@ -51,4 +51,8 @@ body { height: 100%; margin: 0; padding: 0 }
 #resultSection .item{
     min-height: 546px;
     background-color: white;
+}
+
+.anchor{
+	cursor: pointer;
 }

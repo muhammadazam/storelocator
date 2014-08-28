@@ -131,13 +131,7 @@ function searchLocationsNear(center) {
         bounds.extend(center);
         map.fitBounds(bounds);
         $("#resultSection").show();
-        $('.carousel').carousel(0)
-        $("#list-group li").click(function() {
-            var markerNum = $(this).attr("data-marker");
-            if (markerNum != "") {
-                google.maps.event.trigger(markers[markerNum], 'click');
-            }
-        });        
+        $('.carousel').carousel(0);                
     });
 }
 
@@ -145,6 +139,10 @@ function createMarker(latlng, name, address, index) {
     var image = 'images/red' + index + '.png';
     var html = "<b>" + name + "</b> <br/>" + address;
     html += "<hr/>";
+	html += '<div style="width:200px;">' +
+				'<span><a href="#" onclick="caclDistance(' + (index-1) + ');">Get Distance</a></span>' +
+				'<span class="pull-right"><a href="#" onclick="getDirection(' + (index-1) + ');">Get Directions</a></span>' +
+			'</div>';
     var marker = new google.maps.Marker({
         map: map,
         position: latlng,
@@ -160,14 +158,15 @@ function createMarker(latlng, name, address, index) {
 function createOption(name, num, address) {
     $("#list-group").append(
             '<li class="list-group-item" data-marker="'+num+'">' +
+				'<span class="badge anchor" onclick="showOnMap('+num+');">Show on Map</span>' +
                 '<img src="images/red' + (num+1) + '.png"/>&nbsp;&nbsp;&nbsp;' +
                 '<b>' + name + '</b>' +
                 '<br/>' + 
                 '<span style="color:#888;">' + address + '</span>' + 
                 '<br/><br/>' + 
                 '<div>' +
-                    '<span><a href="#" onclick="caclDistance(' + num + ');">Distance</a></span>' +
-                    '<span class="pull-right"><a href="#" onclick="getDirection(' + num + ');">Direction</a></span>' +
+                    '<span><a href="#" onclick="caclDistance(' + num + ');">Get Distance</a></span>' +
+                    '<span class="pull-right"><a href="#" onclick="getDirection(' + num + ');">Get Directions</a></span>' +
                 '</div>' + 
             '</li>'
     );
@@ -241,4 +240,8 @@ function distanceMatrixCallback(response, status) {
 function clearDirections(){
     $('.carousel').carousel('prev');
     directions.setMap(null);
+}
+
+function showOnMap(num) {
+	google.maps.event.trigger(markers[num], 'click');
 }
